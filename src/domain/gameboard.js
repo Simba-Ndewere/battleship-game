@@ -1,12 +1,14 @@
 import ship from './ship'
 import dom from '../dom/dom';
 
-function gameboard() {
+function gameboard(player) {
     return {
         allShipsSunk: false,
         shipCoordinates: [],
         duplicateCells: [],
         ships: [],
+        typeOfPlayer: player,
+
 
         receiveAttack: function (coordinate, cellType) {
 
@@ -26,6 +28,15 @@ function gameboard() {
                         dom.shipSunk(cellType, coordinate);
                     });
                     //dom.crossOutShipLeft(shipHit.shipName);
+
+                    //get parent node of ship
+                    //call dom
+
+                    if(this.typeOfPlayer === 'computer'){
+                        dom.crossOutShipRight(ship.shipName);
+                    }else{
+                        dom.crossOutShipLeft(ship.shipName);
+                    }
                 }
             }
 

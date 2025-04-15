@@ -9,8 +9,8 @@ const shuffleShips = document.getElementById('shuffle');
 const newGame = document.getElementById('newGame');
 const computerBoard = document.querySelector(".board2");
 
-const playerGameBoard = gameboard();
-const computerGameBoard = gameboard();
+const playerGameBoard = gameboard('player');
+const computerGameBoard = gameboard('computer');
 
 const currentPlayer = player();
 const computerPlayer = player();

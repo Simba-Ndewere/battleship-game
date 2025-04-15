@@ -123,17 +123,14 @@ class Dom {
     }
 
     static crossOutShipRight(shipName){
-        const ships = document.querySelectorAll('.shipsRight');
-        let ship = ships.find(ship => ship.textContent == shipName);
-        ship.classList.add('completed');
+        const sunkShip = document.getElementById(shipName + 'Right');
+        sunkShip.classList.add("completed");
     }
 
     static crossOutShipLeft(shipName){
-        const ships = document.querySelectorAll('.shipsLeft');
-        let ship = ships.find(ship => ship.textContent == shipName);
-        ship.classList.add('completed');
+        const sunkShip = document.getElementById(shipName + 'Left');
+        sunkShip.classList.add("completed");
     }
-
 
 }
 
