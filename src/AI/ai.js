@@ -66,13 +66,7 @@ class AI {
 
     static checkForAdjacentCells() {
         let newShip = this.checkShipSunk();
-
-        if (newShip) {
-            //cross ship name off board
-            this.adjacentCellsNewShip();
-        } else {
-            this.adjacentCellsCurrentShip();
-        }
+        newShip ? this.adjacentCellsNewShip() : this.adjacentCellsCurrentShip();
     }
 
     static adjacentCellsNewShip() {

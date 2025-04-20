@@ -87,5 +87,6 @@ export default function getPlayerBoard(){
     return playerGameBoard;
 }
 
+
 window.onload = createDefaultPlayerShips();
 

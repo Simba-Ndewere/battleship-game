@@ -137,6 +137,11 @@ body {
     width: 40%;
 }
 
+.img2 {
+    height: 35%;
+    width: 38%;
+}
+
 .cell2:hover {
     background-color: #7f3f2c;
 }

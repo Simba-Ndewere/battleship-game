@@ -81,17 +81,26 @@ class Dom {
 
         if (shipHit) {
             imageDiv.src = hitImage;
-
         } else {
             imageDiv.src = missImage;
-
         }
+
+        if (cellType === 'computerCell' && shipHit) {
+            imageDiv.classList.add("img2");
+        }
+
         cellAttacked.appendChild(imageDiv);
         cellAttacked.classList.add("unclickable");
     }
 
     static shipSunk(cellType, coordinate) {
         const cellAttacked = document.getElementById(cellType + coordinate);
+        
+        if(cellType === 'computerCell'){
+            const imgageDiv = cellAttacked.firstElementChild;
+            imgageDiv.classList.remove("img2");
+        }
+
         cellAttacked.style.border = "solid 5px red";
         cellAttacked.style.backgroundColor = "gray";
         cellAttacked.style.borderRadius = "10px";
@@ -122,13 +131,8 @@ class Dom {
         }
     }
 
-    static crossOutShipRight(shipName){
-        const sunkShip = document.getElementById(shipName + 'Right');
-        sunkShip.classList.add("completed");
-    }
-
-    static crossOutShipLeft(shipName){
-        const sunkShip = document.getElementById(shipName + 'Left');
+    static crossOutShip(shipName, position) {
+        const sunkShip = document.getElementById(shipName + position);
         sunkShip.classList.add("completed");
     }
 

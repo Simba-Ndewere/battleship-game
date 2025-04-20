@@ -9,7 +9,6 @@ function gameboard(player) {
         ships: [],
         typeOfPlayer: player,
 
-
         receiveAttack: function (coordinate, cellType) {
 
             let shipHit = this.checkInShipCoordinate(coordinate);
@@ -27,15 +26,22 @@ function gameboard(player) {
                     ship.getCoordinates().forEach(coordinate => {
                         dom.shipSunk(cellType, coordinate);
                     });
-                    //dom.crossOutShipLeft(shipHit.shipName);
 
-                    //get parent node of ship
-                    //call dom
+                    this.typeOfPlayer === 'computer' ? dom.crossOutShip(ship.shipName, 'Right') : dom.crossOutShip(ship.shipName, 'Left');
 
-                    if(this.typeOfPlayer === 'computer'){
-                        dom.crossOutShipRight(ship.shipName);
-                    }else{
-                        dom.crossOutShipLeft(ship.shipName);
+                    for (let a = 0; a < this.ships.length; a++) {
+
+                        if (!this.ships[a].isSunk()) {
+                            break;
+                        }
+
+                        if (a == this.ships.length - 1) {
+                            dom.lockUnlockBoard(0);
+                            this.typeOfPlayer === 'computer' ? dom.hitOrMissDisplay('Gave Over! - Player Won') : dom.hitOrMissDisplay('Gave Over! - Computer Won');
+                            setTimeout(function () {
+                                location.reload();
+                            }, 8000);
+                        }
                     }
                 }
             }
@@ -79,11 +85,11 @@ function gameboard(player) {
             this.duplicateCells.length = 0;
             this.ships.length = 0;
 
-            const cruiser = ship(2,'cruiser');
-            const battleship = ship(4,'battleship');
-            const submarine = ship(3,'submarine');
-            const aircraft = ship(5,'aircraft');
-            const destroyer = ship(3,'destroyer');
+            const cruiser = ship(2, 'cruiser');
+            const battleship = ship(4, 'battleship');
+            const submarine = ship(3, 'submarine');
+            const aircraft = ship(5, 'aircraft');
+            const destroyer = ship(3, 'destroyer');
 
             const ships = [cruiser, battleship, submarine, aircraft, destroyer];
 
@@ -215,7 +221,7 @@ function gameboard(player) {
                 direction = 'left';
 
             return direction;
-        }
+        },
     }
 }
 
