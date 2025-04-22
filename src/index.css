@@ -61,7 +61,7 @@ body {
     border-radius: 5px;
     color: black;
     font-family: 'Press Start 2P', cursive;
-    width: 20%;
+    width: 30%;
     position: absolute;
     left: 50%;
     right: 50%;
@@ -139,7 +139,7 @@ body {
 
 .img2 {
     height: 35%;
-    width: 38%;
+    width: 33%;
 }
 
 .cell2:hover {

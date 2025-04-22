@@ -19,11 +19,11 @@ dom.createBoardGrids();
 
 const createDefaultPlayerShips = () => {
 
-    const cruiser = ship(2,'cruiser');
-    const battleship = ship(4,'battleship');
-    const submarine = ship(3,'submarine');
-    const aircraft = ship(5,'aircraft');
-    const destroyer = ship(3,'destroyer');
+    const cruiser = ship(2, 'cruiser');
+    const battleship = ship(4, 'battleship');
+    const submarine = ship(3, 'submarine');
+    const aircraft = ship(5, 'aircraft');
+    const destroyer = ship(3, 'destroyer');
 
     const ships = [cruiser, battleship, submarine, aircraft, destroyer];
 
@@ -65,28 +65,29 @@ computerBoard.addEventListener("click", (event) => {
         changeTurn = computerGameBoard.receiveAttack(id, "computerCell");
     }
 
-    if (changeTurn) {
-        dom.lockUnlockBoard(0);
-        dom.hitOrMissDisplay("miss");
-        dom.displayPlayerTurn(1);
-        setTimeout(function () {
-            if (ai.hitShips.length == 0) {
-                let randomNumber = ai.computerPick(100);
-                ai.attackPlayerBoard(randomNumber);
-            } else {
-                ai.checkForAdjacentCells();
-            }
-        }, 4000);
-    } else {
-        dom.hitOrMissDisplay("hit");
-        dom.displayPlayerTurn(0);
+    if (!computerGameBoard.gameOver) {
+        if (changeTurn) {
+            dom.lockUnlockBoard(0);
+            dom.hitOrMissDisplay("miss");
+            dom.displayPlayerTurn(1);
+            setTimeout(function () {
+                if (ai.hitShips.length == 0) {
+                    let randomNumber = ai.computerPick(100);
+                    ai.attackPlayerBoard(randomNumber);
+                } else {
+                    ai.checkForAdjacentCells();
+                }
+            }, 4000);
+        } else {
+            dom.hitOrMissDisplay("hit");
+            dom.displayPlayerTurn(0);
+        }
     }
 });
 
-export default function getPlayerBoard(){
+export default function getPlayerBoard() {
     return playerGameBoard;
 }
-
 
 window.onload = createDefaultPlayerShips();
 

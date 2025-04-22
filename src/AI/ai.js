@@ -12,10 +12,12 @@ class AI {
         let changeTurn = getPlayerBoard().receiveAttack(id, "playerCell");
         this.attackedCells.push(id);
 
-        if (changeTurn) {
-            this.attackPlayerBoardMiss();
-        } else {
-            this.attackPlayerBoardHit(id);
+        if(!getPlayerBoard().gameOver){
+            if (changeTurn) {
+                this.attackPlayerBoardMiss();
+            } else {
+                this.attackPlayerBoardHit(id);
+            }
         }
     }
 

@@ -8,6 +8,7 @@ function gameboard(player) {
         duplicateCells: [],
         ships: [],
         typeOfPlayer: player,
+        gameOver: false,
 
         receiveAttack: function (coordinate, cellType) {
 
@@ -37,10 +38,8 @@ function gameboard(player) {
 
                         if (a == this.ships.length - 1) {
                             dom.lockUnlockBoard(0);
-                            this.typeOfPlayer === 'computer' ? dom.hitOrMissDisplay('Gave Over! - Player Won') : dom.hitOrMissDisplay('Gave Over! - Computer Won');
-                            setTimeout(function () {
-                                location.reload();
-                            }, 8000);
+                            this.typeOfPlayer === 'computer' ? dom.hitOrMissDisplay('Game Over! - Player Won') : dom.hitOrMissDisplay('Game Over! - Computer Won');
+                            this.gameOver = true;
                         }
                     }
                 }
