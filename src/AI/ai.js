@@ -1,5 +1,5 @@
-import getPlayerBoard from "../index.js";
-import dom from "../dom/dom.js";
+//import getPlayerBoard from "../index.js";
+//import dom from "../dom/dom.js";
 
 class AI {
     static hitShips = [];
@@ -9,7 +9,7 @@ class AI {
     static hitCells = [];
 
     static attackPlayerBoard(id) {
-        let changeTurn = getPlayerBoard().receiveAttack(id, "playerCell");
+        //let changeTurn = getPlayerBoard().receiveAttack(id, "playerCell");
         this.attackedCells.push(id);
 
         if(!getPlayerBoard().gameOver){
@@ -22,9 +22,9 @@ class AI {
     }
 
     static attackPlayerBoardMiss() {
-        dom.hitOrMissDisplay("miss");
-        dom.displayPlayerTurn(0);
-        dom.lockUnlockBoard(1);
+        //dom.hitOrMissDisplay("miss");
+        //dom.displayPlayerTurn(0);
+        //dom.lockUnlockBoard(1);
 
         if (this.hitCells.length == 1) this.changeDirection();
 
@@ -35,8 +35,9 @@ class AI {
     }
 
     static attackPlayerBoardHit(id) {
-        dom.hitOrMissDisplay("hit");
-        dom.displayPlayerTurn(1);
+        //dom.hitOrMissDisplay("hit");
+        //dom.displayPlayerTurn(1);
+
         const ship = this.checkShipHit(id);
 
         if (this.hitCells.length == 0) {
@@ -115,7 +116,7 @@ class AI {
                 }
                 break;
             case 'down':
-                if (this.checkAttackedCells(this.hitCells[this.hitCells.length - 1] + 10)) {
+                if (this.checkAttackedCells(this.hitCells[this.hitCells.length - 1] + 10) ) {
                     this.adjacentCellsChangeDirection();
                 } else if (this.hitCells[this.hitCells.length - 1] + 10 > 99) {
                     this.adjacentCellsChangeDirection();

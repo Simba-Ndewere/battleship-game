@@ -1,5 +1,5 @@
-import hitImage from '../hit.png'
-import missImage from '../miss.png'
+import hitImage from '../images/hit.png'
+import missImage from '../images/miss.png'
 
 class Dom {
     static colours = ["black", "green", "blue", "purple", "yellow"];

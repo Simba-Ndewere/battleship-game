@@ -65,6 +65,10 @@ computerBoard.addEventListener("click", (event) => {
         changeTurn = computerGameBoard.receiveAttack(id, "computerCell");
     }
 
+    if (computerGameBoard.gameOver) {
+        return; 
+    }
+    
     if (!computerGameBoard.gameOver) {
         if (changeTurn) {
             dom.lockUnlockBoard(0);
@@ -90,4 +94,3 @@ export default function getPlayerBoard() {
 }
 
 window.onload = createDefaultPlayerShips();
-
