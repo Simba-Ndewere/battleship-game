@@ -1,5 +1,5 @@
 import ai from '../AI/ai';
 
 test('', () => {
-    expect(ai).toHaveProperty("attackPlayerBoard");
+    expect(ai).toHaveProperty("attackPlayerBoardHit");
 });

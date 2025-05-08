@@ -9,8 +9,8 @@ const shuffleShips = document.getElementById('shuffle');
 const newGame = document.getElementById('newGame');
 const computerBoard = document.querySelector(".board2");
 
-const playerGameBoard = gameboard('player');
-const computerGameBoard = gameboard('computer');
+const playerGameBoard = gameboard();
+const computerGameBoard = gameboard();
 
 const currentPlayer = player();
 const computerPlayer = player();
@@ -62,13 +62,34 @@ computerBoard.addEventListener("click", (event) => {
 
     if (event.target.classList.contains("cell2")) {
         let id = Number(event.target.id.substring(12));
-        changeTurn = computerGameBoard.receiveAttack(id, "computerCell");
+        changeTurn = computerGameBoard.receiveAttack(id);
+        dom.hitOrMissImage('computerCell', id, !changeTurn);
+        if (!changeTurn) {
+            const ship = computerGameBoard.checkShipHit(id);
+            if (ship.isSunk()) {
+                ship.getCoordinates().forEach(coordinate => {
+                    dom.shipSunk('computerCell', coordinate);
+                });
+
+                dom.crossOutShip(ship.shipName, 'Right');
+            }
+
+            for (let a = 0; a < computerGameBoard.ships.length; a++) {
+
+                if (!computerGameBoard.ships[a].isSunk()) {
+                    break;
+                }
+
+                if (a == computerGameBoard.ships.length - 1) {
+                    dom.lockUnlockBoard(0);
+                    computerGameBoard.gameOver = true;
+                    dom.hitOrMissDisplay('Game Over! - You Won');
+                }
+            }
+        }
+
     }
 
-    if (computerGameBoard.gameOver) {
-        return; 
-    }
-    
     if (!computerGameBoard.gameOver) {
         if (changeTurn) {
             dom.lockUnlockBoard(0);
@@ -77,9 +98,9 @@ computerBoard.addEventListener("click", (event) => {
             setTimeout(function () {
                 if (ai.hitShips.length == 0) {
                     let randomNumber = ai.computerPick(100);
-                    ai.attackPlayerBoard(randomNumber);
+                    attackPlayerBoard(randomNumber);
                 } else {
-                    ai.checkForAdjacentCells();
+                    attackPlayerBoard(ai.checkForAdjacentCells());
                 }
             }, 4000);
         } else {
@@ -89,8 +110,56 @@ computerBoard.addEventListener("click", (event) => {
     }
 });
 
-export default function getPlayerBoard() {
-    return playerGameBoard;
+const attackPlayerBoard = (id) => {
+    let changeTurn = playerGameBoard.receiveAttack(id);
+    dom.hitOrMissImage('playerCell', id, !changeTurn);
+    ai.attackedCells.push(id);
+    if (!changeTurn) {
+        const ship = playerGameBoard.checkShipHit(id);
+        if (ship.isSunk()) {
+            ship.getCoordinates().forEach(coordinate => {
+                dom.shipSunk('playerCell', coordinate);
+            });
+            dom.crossOutShip(ship.shipName, 'Left');
+        }
+
+        for (let a = 0; a < playerGameBoard.ships.length; a++) {
+
+            if (!playerGameBoard.ships[a].isSunk()) {
+                break;
+            }
+
+            if (a == playerGameBoard.ships.length - 1) {
+                dom.lockUnlockBoard(0);
+                playerGameBoard.gameOver = true;
+                dom.hitOrMissDisplay('Game Over! - Computer Won');
+            }
+        }
+    }
+
+    let returnedValue = -1;
+
+    if (!playerGameBoard.gameOver) {
+        if (changeTurn) {
+            dom.hitOrMissDisplay("miss");
+            dom.displayPlayerTurn(0);
+            dom.lockUnlockBoard(1);
+            ai.attackPlayerBoardMiss();
+        } else {
+            dom.hitOrMissDisplay("hit");
+            dom.displayPlayerTurn(1);
+            const shipHit = playerGameBoard.checkShipHit(id);
+            returnedValue = ai.attackPlayerBoardHit(id, shipHit);
+
+        }
+    }
+
+    setTimeout(function () {
+        if (returnedValue > 0) {
+            attackPlayerBoard(returnedValue);
+        }
+    }, 2500);
+
 }
 
 window.onload = createDefaultPlayerShips();

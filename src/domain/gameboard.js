@@ -1,46 +1,21 @@
-import ship from './ship'
-import dom from '../dom/dom';
+import ship from './ship';
 
-function gameboard(player) {
+function gameboard() {
     return {
         shipCoordinates: [],
         duplicateCells: [],
         ships: [],
-        typeOfPlayer: player,
         gameOver: false,
 
-        receiveAttack: function (coordinate, cellType) {
+        receiveAttack: function (coordinate) {
 
             let shipHit = this.checkInShipCoordinate(coordinate);
-            //dom.hitOrMissImage(cellType, coordinate, shipHit);
-
             if (shipHit) {
                 const ship = this.checkShipHit(coordinate);
                 ship.hit();
 
                 if (ship.hitSum == ship.length) {
                     ship.sunk = true;
-                }
-
-                if (ship.isSunk()) {
-                    ship.getCoordinates().forEach(coordinate => {
-                        //dom.shipSunk(cellType, coordinate);
-                    });
-
-                    //this.typeOfPlayer === 'computer' ? dom.crossOutShip(ship.shipName, 'Right') : dom.crossOutShip(ship.shipName, 'Left');
-
-                    for (let a = 0; a < this.ships.length; a++) {
-
-                        if (!this.ships[a].isSunk()) {
-                            break;
-                        }
-
-                        if (a == this.ships.length - 1) {
-                           //om.lockUnlockBoard(0);
-                            this.gameOver = true;
-                            //is.typeOfPlayer === 'computer' ? dom.hitOrMissDisplay('Game Over! - You Won') : dom.hitOrMissDisplay('Game Over! - Computer Won');
-                        }
-                    }
                 }
             }
 

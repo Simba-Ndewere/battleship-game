@@ -1,6 +1,3 @@
-//import getPlayerBoard from "../index.js";
-//import dom from "../dom/dom.js";
-
 class AI {
     static hitShips = [];
     static firstShipCoordinates = [];
@@ -8,24 +5,7 @@ class AI {
     static attackedCells = [];
     static hitCells = [];
 
-    static attackPlayerBoard(id) {
-        //let changeTurn = getPlayerBoard().receiveAttack(id, "playerCell");
-        this.attackedCells.push(id);
-
-        if(!getPlayerBoard().gameOver){
-            if (changeTurn) {
-                this.attackPlayerBoardMiss();
-            } else {
-                this.attackPlayerBoardHit(id);
-            }
-        }
-    }
-
     static attackPlayerBoardMiss() {
-        //dom.hitOrMissDisplay("miss");
-        //dom.displayPlayerTurn(0);
-        //dom.lockUnlockBoard(1);
-
         if (this.hitCells.length == 1) this.changeDirection();
 
         if (this.hitCells.length > 1) {
@@ -34,11 +14,9 @@ class AI {
         }
     }
 
-    static attackPlayerBoardHit(id) {
-        //dom.hitOrMissDisplay("hit");
-        //dom.displayPlayerTurn(1);
+    static attackPlayerBoardHit(id, shipHit) {
 
-        const ship = this.checkShipHit(id);
+        const ship = shipHit;
 
         if (this.hitCells.length == 0) {
             const direction = this.initialDirection(id);
@@ -62,14 +40,16 @@ class AI {
                 this.oppositeDirection();
             }
         }
-        setTimeout(() => {
-            this.checkForAdjacentCells();
-        }, 4000);
+        return this.checkForAdjacentCells();
     }
 
     static checkForAdjacentCells() {
         let newShip = this.checkShipSunk();
-        newShip ? this.adjacentCellsNewShip() : this.adjacentCellsCurrentShip();
+        if (newShip) {
+            return this.adjacentCellsNewShip();
+        } else {
+            return this.adjacentCellsCurrentShip();
+        }
     }
 
     static adjacentCellsNewShip() {
@@ -83,10 +63,10 @@ class AI {
             const direction = this.initialDirection(this.firstShipCoordinates[0]);
             this.directionArray.push(direction);
             if (direction.includes("no")) this.changeDirection();
-            this.checkForAdjacentCells();
+            return this.adjacentCellsCurrentShip();
         } else {
             let randomNumber = this.computerPick(100);
-            this.attackPlayerBoard(randomNumber);
+            return randomNumber;
         }
     }
 
@@ -94,42 +74,38 @@ class AI {
         switch (this.directionArray[this.directionArray.length - 1]) {
             case 'left':
                 if (this.checkAttackedCells(this.hitCells[this.hitCells.length - 1] - 1)) {
-                    this.adjacentCellsChangeDirection();
+                    return this.adjacentCellsChangeDirection();
                 } else {
-                    this.attackPlayerBoard(this.hitCells[this.hitCells.length - 1] - 1);
+                    return this.hitCells[this.hitCells.length - 1] - 1;
                 }
-                break;
             case 'right':
                 if (this.checkAttackedCells(this.hitCells[this.hitCells.length - 1] + 1)) {
-                    this.adjacentCellsChangeDirection();
+                    return this.adjacentCellsChangeDirection();
                 } else {
-                    this.attackPlayerBoard(this.hitCells[this.hitCells.length - 1] + 1);
+                    return this.hitCells[this.hitCells.length - 1] + 1;
                 }
-                break;
             case 'up':
                 if (this.checkAttackedCells(this.hitCells[this.hitCells.length - 1] - 10)) {
-                    this.adjacentCellsChangeDirection();
+                    return this.adjacentCellsChangeDirection();
                 } else if (this.hitCells[this.hitCells.length - 1] - 10 < 0) {
-                    this.adjacentCellsChangeDirection();
+                    return this.adjacentCellsChangeDirection();
                 } else {
-                    this.attackPlayerBoard(this.hitCells[this.hitCells.length - 1] - 10);
+                    return this.hitCells[this.hitCells.length - 1] - 10;
                 }
-                break;
             case 'down':
-                if (this.checkAttackedCells(this.hitCells[this.hitCells.length - 1] + 10) ) {
-                    this.adjacentCellsChangeDirection();
+                if (this.checkAttackedCells(this.hitCells[this.hitCells.length - 1] + 10)) {
+                    return this.adjacentCellsChangeDirection();
                 } else if (this.hitCells[this.hitCells.length - 1] + 10 > 99) {
-                    this.adjacentCellsChangeDirection();
+                    return this.adjacentCellsChangeDirection(); 
                 } else {
-                    this.attackPlayerBoard(this.hitCells[this.hitCells.length - 1] + 10);
+                    return this.hitCells[this.hitCells.length - 1] + 10;
                 }
-                break;
         }
     }
 
     static adjacentCellsChangeDirection() {
         this.hitCells.length > 1 ? (this.hitCells.push(this.firstShipCoordinates[0]), this.oppositeDirection()) : this.changeDirection();
-        this.checkForAdjacentCells();
+        return this.checkForAdjacentCells();
     }
 
     static checkAttackedCells(newCoordinate) {
@@ -168,11 +144,6 @@ class AI {
                 this.directionArray.push('down');
                 break;
         }
-    }
-
-    static checkShipHit = (coordinate) => {
-        const ship = getPlayerBoard().checkShipHit(coordinate);
-        return ship;
     }
 
     static random = (max) => {
