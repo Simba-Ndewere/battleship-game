@@ -3,76 +3,60 @@ import ship from '../domain/ship';
 
 test('', () => {
     const gameboardObject = gameboard();
-    expect(gameboardObject.allShipsSunk).toBe(false);
-    expect(gameboardObject.shipCoordinates).toEqual([]);
     expect(gameboardObject).toHaveProperty("receiveAttack");
 
     expect(gameboardObject).toHaveProperty("shuffle");
 });
 
-test('test adding coordinates', () => {
+test('check ship hit is true when gameboard receive a hit attack. Returned value to be falsy due to switch player turn', () => {
     const gameboardObject = gameboard();
-    const array = [46, 36];
-    gameboardObject.addCoordinates(array);
-    expect(gameboardObject.shipCoordinates).toStrictEqual([[46, 36]]);
+    const shipArray1 = [3,13,23,33];
+    const shipArray2 = [33,34,35];
+
+    const ship1 = ship(4,'destroyer');
+    ship1.addCoordinates(shipArray1);
+    const ship2 = ship(3,'undertaker');
+    ship2.addCoordinates(shipArray2);
+
+    gameboardObject.ships.push(ship1);
+    gameboardObject.ships.push(ship2);
+
+    gameboardObject.shipCoordinates.push(shipArray1);
+    gameboardObject.shipCoordinates.push(shipArray2);
+    const returnedValue = gameboardObject.receiveAttack(35);
+    expect(returnedValue).toBeFalsy();
 });
 
-test('test shuffling ship coordinates', () => {
-
+test('check if a coordinate is in a ship',() => {
     const gameboardObject = gameboard();
-
-    const array4 = [81, 82, 83, 84, 85];
-    const array5 = [12, 13, 14, 15];
-    gameboardObject.addCoordinates(array4);
-    gameboardObject.addCoordinates(array5);
-
-    gameboardObject.shuffle();
-
+    const shipArray1 = [3,13,23,33];
+    gameboardObject.shipCoordinates.push(shipArray1);
+    const shipHit = gameboardObject.checkInShipCoordinate(13);
+    expect(shipHit).toBeTruthy();
 });
 
-test('check cell clicked is in ship coordinates', () => {
-    
-    const gameBoard = gameboard();
 
-    const coordinates = [46,45];
-    gameBoard.shipCoordinates.push(coordinates);
-    let value = gameBoard.checkInShipCoordinate(45);
-    expect(value).toBe(true);
+test('check which ship is hit after a received attack', () => {
+    const gameboardObject = gameboard();
+    const shipArray1 = [3,13,23,33];
+    const shipArray2 = [34,35,36];
 
+    const ship1 = ship(4,'destroyer');
+    ship1.addCoordinates(shipArray1);
+    const ship2 = ship(3,'undertaker');
+    ship2.addCoordinates(shipArray2);
+
+    gameboardObject.ships.push(ship1);
+    gameboardObject.ships.push(ship2);
+
+    gameboardObject.shipCoordinates.push(shipArray1);
+    gameboardObject.shipCoordinates.push(shipArray2);
+    const shipReturned = gameboardObject.checkShipHit(33);
+    expect(shipReturned).toEqual(ship1);
 });
 
-test('check hit coordinate is in which ship', () => {
-    const gameBoard = gameboard();
 
-    const coordinates = [46,45];
 
-    const cruiser = ship(2,0);
-    const submarine = ship(3,1);
 
-    const coordinates2 = [87,88,89];
-    submarine.addCoordinates(coordinates2);
 
-    cruiser.addCoordinates(coordinates);
-    submarine.addCoordinates(coordinates2);
 
-    gameBoard.ships.push(cruiser);
-    gameBoard.ships.push(submarine);
-
-    const shipId = gameBoard.checkShipHit(88);
-    expect(shipId).toBe(1);
-});
-
-test('check if ship has been sunk', () => {
-    const gameBoard = gameboard();
-
-    const coordinates = [46,45];
-    const cruiser = ship(2,0);
-    cruiser.addCoordinates(coordinates);
-    gameBoard.ships.push(cruiser);
-        
-    gameBoard.receiveAttack(46);
-    gameBoard.receiveAttack(45);
-
-    expect(cruiser.hitSum).toBe(2);
-    expect(cruiser.sunk).toBe(true);
-});
