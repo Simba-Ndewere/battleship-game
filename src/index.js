@@ -58,7 +58,7 @@ newGame.addEventListener('click', (event) => {
 });
 
 computerBoard.addEventListener("click", (event) => {
-    
+
     let changeTurn = true;
 
     if (event.target.classList.contains("cell2")) {
@@ -88,26 +88,23 @@ computerBoard.addEventListener("click", (event) => {
                 }
             }
         }
-
     }
 
-    if (!computerGameBoard.gameOver) {
-        if (changeTurn) {
-            dom.lockUnlockBoard(0);
-            dom.hitOrMissDisplay("miss");
-            dom.displayPlayerTurn(1);
-            setTimeout(function () {
-                if (ai.hitShips.length == 0) {
-                    let randomNumber = ai.computerPick(100);
-                    attackPlayerBoard(randomNumber);
-                } else {
-                    attackPlayerBoard(ai.checkForAdjacentCells());
-                }
-            }, 4000);
-        } else {
-            dom.hitOrMissDisplay("hit");
-            dom.displayPlayerTurn(0);
-        }
+    if (changeTurn) {
+        dom.lockUnlockBoard(0);
+        dom.hitOrMissDisplay("miss");
+        dom.displayPlayerTurn(1);
+        setTimeout(function () {
+            if (ai.hitShips.length == 0) {
+                let randomNumber = ai.computerPick(100);
+                attackPlayerBoard(randomNumber);
+            } else {
+                attackPlayerBoard(ai.checkForAdjacentCells());
+            }
+        }, 4000);
+    } else {
+        dom.hitOrMissDisplay("hit");
+        dom.displayPlayerTurn(0);
     }
 });
 
@@ -141,7 +138,7 @@ const attackPlayerBoard = (id) => {
 
     let returnedValue = -1;
 
-    if (!playerGameBoard.gameOver) {
+    if (!playerGameBoard.gameOver)
         if (changeTurn) {
             dom.hitOrMissDisplay("miss");
             dom.displayPlayerTurn(0);
@@ -149,11 +146,10 @@ const attackPlayerBoard = (id) => {
             ai.attackPlayerBoardMiss();
         } else {
             dom.hitOrMissDisplay("hit");
-            dom.displayPlayerTurn(1);
+            if (!playerGameBoard.gameOver) dom.displayPlayerTurn(1);
             const shipHit = playerGameBoard.checkShipHit(id);
             returnedValue = ai.attackPlayerBoardHit(id, shipHit);
         }
-    }
 
     setTimeout(function () {
         if (!playerGameBoard.gameOver && returnedValue > 0) {
