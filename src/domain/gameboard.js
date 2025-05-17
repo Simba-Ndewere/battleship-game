@@ -99,14 +99,14 @@ function gameboard() {
                     else
                         direction === 'left' ? startingPosition = startingPosition - 1 : startingPosition = startingPosition + 1;
 
-                    if (!this.checkNewPositionDuplicate(startingPosition, duplicateCell, shipCoordinates)) break;
+                    if (this.checkNewPositionDuplicate(startingPosition, duplicateCell, shipCoordinates)) break;
 
                     if (a != shipLength - 1 && overboard.includes(startingPosition)) {
                         this.resetArrays(shipCoordinates, duplicateCell);
                         break;
                     }
 
-                    if (!this.checkOutOfBounds(startingPosition, shipCoordinates, duplicateCell)) break;
+                    if (this.checkOutOfBounds(startingPosition, shipCoordinates, duplicateCell)) break;
 
                     if (a == shipLength - 1) {
                         complete = true;
@@ -124,20 +124,20 @@ function gameboard() {
         checkNewPositionDuplicate: function (startingPosition, duplicateCell, shipCoordinates) {
             if (this.duplicateCells.flat().includes(startingPosition)) {
                 this.resetArrays(shipCoordinates, duplicateCell);
-                return false;
+                return true;
             } else {
                 shipCoordinates.push(startingPosition);
                 duplicateCell.push(startingPosition);
-                return true;
+                return false;
             }
         },
 
         checkOutOfBounds: function (startingPosition, shipCoordinates, duplicateCell) {
             if (startingPosition < 0 || startingPosition > 99) {
                 this.resetArrays(shipCoordinates, duplicateCell);
-                return false;
-            } else {
                 return true;
+            } else {
+                return false;
             }
         },
 
@@ -168,7 +168,7 @@ function gameboard() {
             let topEdge = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
             let bottomEdge = [91, 92, 93, 94, 95, 96, 97, 98, 99];
 
-            direction = this.direction(2) == 0 ? 'up' : 'down'
+            direction = this.direction(2) == 0 ? 'up' : 'down';
 
             if (topEdge.includes(sp))
                 direction = 'down';

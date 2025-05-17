@@ -23,7 +23,7 @@ class AI {
             this.directionArray.push(direction);
             if (direction.includes('no')) this.changeDirection();
         }
-
+        
         if (!this.hitShips.includes(ship)) {
             this.hitShips.push(ship);
             this.firstShipCoordinates.push(id);
@@ -32,7 +32,6 @@ class AI {
         if (this.hitShips[0].coordinates.includes(id)) this.hitCells.push(id);
 
         if (this.hitShips.length > 1) {
-
             if (!this.hitShips[0].coordinates.includes(id) && this.hitCells.length == 1) this.changeDirection();
 
             if (!this.hitShips[0].coordinates.includes(id) && this.hitCells.length > 1) {
@@ -96,7 +95,7 @@ class AI {
                 if (this.checkAttackedCells(this.hitCells[this.hitCells.length - 1] + 10)) {
                     return this.adjacentCellsChangeDirection();
                 } else if (this.hitCells[this.hitCells.length - 1] + 10 > 99) {
-                    return this.adjacentCellsChangeDirection(); 
+                    return this.adjacentCellsChangeDirection();
                 } else {
                     return this.hitCells[this.hitCells.length - 1] + 10;
                 }

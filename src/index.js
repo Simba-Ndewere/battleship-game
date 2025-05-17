@@ -58,6 +58,7 @@ newGame.addEventListener('click', (event) => {
 });
 
 computerBoard.addEventListener("click", (event) => {
+    
     let changeTurn = true;
 
     if (event.target.classList.contains("cell2")) {
@@ -70,7 +71,6 @@ computerBoard.addEventListener("click", (event) => {
                 ship.getCoordinates().forEach(coordinate => {
                     dom.shipSunk('computerCell', coordinate);
                 });
-
                 dom.crossOutShip(ship.shipName, 'Right');
             }
 
@@ -84,6 +84,7 @@ computerBoard.addEventListener("click", (event) => {
                     dom.lockUnlockBoard(0);
                     computerGameBoard.gameOver = true;
                     dom.hitOrMissDisplay('Game Over! - You Won');
+                    return;
                 }
             }
         }
@@ -133,6 +134,7 @@ const attackPlayerBoard = (id) => {
                 dom.lockUnlockBoard(0);
                 playerGameBoard.gameOver = true;
                 dom.hitOrMissDisplay('Game Over! - Computer Won');
+                return;
             }
         }
     }
@@ -150,12 +152,11 @@ const attackPlayerBoard = (id) => {
             dom.displayPlayerTurn(1);
             const shipHit = playerGameBoard.checkShipHit(id);
             returnedValue = ai.attackPlayerBoardHit(id, shipHit);
-
         }
     }
 
     setTimeout(function () {
-        if (returnedValue > 0) {
+        if (!playerGameBoard.gameOver && returnedValue > 0) {
             attackPlayerBoard(returnedValue);
         }
     }, 2500);
