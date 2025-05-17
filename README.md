@@ -1,7 +1,7 @@
-Battleship game live on https://simba-ndewere.github.io/Todo-List/ 
+Battleship game live on https://simba-ndewere.github.io/battleship-game/
 
 ## Project Scope
-The project is part of The Odin Project's JavaScript curriculum. You can view the project scope [here](https://www.theodinproject.com/lessons/node-path-javascript-todo-list).
+The project is part of The Odin Project's JavaScript curriculum. You can view the project scope [here](https://www.theodinproject.com/lessons/node-path-javascript-battleship).
 
 ## Features
 - Classic 10x10 Battleship grid for player and AI
