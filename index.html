@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        html {
+            visibility: hidden;
+            opacity: 0;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Battleship</title>
+<script defer src="main.js"></script></head>
+
+<body>
+    <div class="container">
+        <div class="top">BATTLESHIP
+            <form class="modal">
+                <div class="modal-display">
+                </div>
+            </form>
+        </div>
+        <div class="bottom">
+            <div class="shipsLeft">
+                <div id="cruiserLeft">Cruiser(2)</div>
+                <div id="battleshipLeft">Battleship(4)</div>
+                <div id="submarineLeft">Submarine(3)</div>
+                <div id="aircraftLeft">Aircraft(5)</div>
+                <div id="destroyerLeft">Destroyer(3)</div>
+            </div>
+            <div class="left">
+                <div class="left-header">YOUR FLEET</div>
+                <div class="board1"></div>
+            </div>
+            <div class="right">
+                <div class="right-header">COMPUTER FLEET</div>
+                <div class="board2"></div>
+            </div>
+            <div class="shipsRight">
+                <div id="cruiserRight">Cruiser(2)</div>
+                <div id="battleshipRight">Battleship(4)</div>
+                <div id="submarineRight">Submarine(3)</div>
+                <div id="aircraftRight">Aircraft(5)</div>
+                <div id="destroyerRight">Destroyer(3)</div>
+            </div>
+    
+        </div>
+        <div class="footer">
+            <div class="randomise">
+                <button type="button" id="shuffle" class="button">
+                    <span class="buttonText">Shuffle Ships</span>
+                </button>
+            </div>
+
+            <div class="game">
+                <button type="button" id="newGame" class="button">
+                    <span class="startGameText">Start Game</span>
+                </button>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
